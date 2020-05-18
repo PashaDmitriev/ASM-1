@@ -18,6 +18,7 @@
     part            db partSize dup('$')
     descriptor      dw 0
     resultNumber    dw 0
+    allNumber       dw 1
     resultString    db partSize dup('$')
     endl            db 10, 13, '$'
 
@@ -164,12 +165,13 @@ calculateEmptyStrings:
         pop ax
         pop resultNumber  
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-        cmp isEndl, 1
+        cmp isEndl, 0
         je check_previous
         
-        mov isEndl, 1
-        mov wasPreviousEndl, 0
+        mov isEndl, 0
+        mov wasPreviousEndl, 1
 
+        ;inc resultNumber
         cmp si, realPartSize
         jb part_parsing
         jmp exit_loop
@@ -179,6 +181,7 @@ calculateEmptyStrings:
             cmp wasPreviousEndl, 1
             je increment
 
+            ;inc resultNumber
             mov wasPreviousEndl, 0
             cmp si, realPartSize
             jb part_parsing
@@ -192,6 +195,11 @@ calculateEmptyStrings:
             jb part_parsing
         
         exit_loop:
+    push ax
+    mov ax, allNumber
+    sub ax, resultNumber
+    mov resultNumber, ax
+    pop ax
     popa
 ret
 
@@ -209,20 +217,23 @@ checkEndl:
     call setIsEndl
     
     exit_from_endl_check:
+        ;inc si
 ret
 
 checkNextSymbol:
-    call setIsEndl
+    ;call setIsEndl
     mov bl, [part + si + 1]
     xor bh,bh
 
     cmp bl, 0ah
     jne exitFromCheck
 
+    call setIsEndl
+    inc allNumber
     inc si
 
     exitFromCheck:
-        inc si
+        ;inc si
 ret
 
 setIsEndl:
