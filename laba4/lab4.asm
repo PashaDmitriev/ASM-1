@@ -27,7 +27,7 @@ PAC_HEIGHT equ 2
 
 black_char db 35h,0      ;black character on black background
 
-blue_char db 38h,11h    ;blue character on blue background
+pink_char db 38h,51h    ;blue character on blue background
 
 gray_char db 30h,77h     ;gray character in gray background
 
@@ -78,7 +78,7 @@ GHOST_DOWN equ 2
 GHOST_LEFT equ 3
 GHOST_RIGHT equ 4
 
-GHOST_NUMBER equ 7
+GHOST_NUMBER equ 5
 
 GHOST_HEIGHT equ 2
 GHOST_WIDTH equ 4
@@ -107,7 +107,7 @@ GAMEOVER_X equ 35
 GAMEOVER_Y equ 12
 
 firstdir_text1 db "Choose first"
-firstdir_text2 db "direction"
+firstdir_text2 db "direction using arrows"
 
 FIRSTDIR_X1 equ 64
 FIRSTDIR_Y1 equ 14
@@ -310,7 +310,7 @@ move_pacman PROC        ;changes PACX, PACY according to current direction and p
     
     push [di+bx]
     push [di+bx+2]
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call check_move
     add sp,6
@@ -424,7 +424,7 @@ print_layout PROC              ;prints the labirinth
     push 0                      ;Y coordinate
     push 60                      ;width of the rectangle
     push 1                     ;height of the rectangle
-    push word ptr [blue_char]   ;char with attribute (blue for the labirinth)
+    push word ptr [pink_char]   ;char with attribute (blue for the labirinth)
     
     call print_rect
     add sp,10
@@ -434,7 +434,7 @@ print_layout PROC              ;prints the labirinth
     push 1
     push 2
     push 24
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call print_rect
     add sp,10
@@ -444,7 +444,7 @@ print_layout PROC              ;prints the labirinth
     push 24
     push 58
     push 1
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call print_rect
     add sp,10
@@ -454,7 +454,7 @@ print_layout PROC              ;prints the labirinth
     push 1
     push 2
     push 23
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call print_rect
     add sp,10
@@ -464,7 +464,7 @@ print_layout PROC              ;prints the labirinth
     push 11
     push 4
     push 5
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call print_rect
     add sp,10
@@ -474,7 +474,7 @@ print_layout PROC              ;prints the labirinth
     push 9
     push 2
     push 4
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call print_rect
     add sp,10
@@ -484,7 +484,7 @@ print_layout PROC              ;prints the labirinth
     push 18
     push 8
     push 1
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call print_rect
     add sp,10
@@ -494,7 +494,7 @@ print_layout PROC              ;prints the labirinth
     push 18
     push 2
     push 3
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call print_rect
     add sp,10
@@ -504,7 +504,7 @@ print_layout PROC              ;prints the labirinth
     push 11
     push 2
     push 8
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call print_rect
     add sp,10
@@ -514,7 +514,7 @@ print_layout PROC              ;prints the labirinth
     push 15
     push 6
     push 1
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call print_rect
     add sp,10
@@ -524,7 +524,7 @@ print_layout PROC              ;prints the labirinth
     push 14
     push 2
     push 8
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call print_rect
     add sp,10
@@ -534,7 +534,7 @@ print_layout PROC              ;prints the labirinth
     push 17
     push 6
     push 1
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call print_rect
     add sp,10
@@ -544,7 +544,7 @@ print_layout PROC              ;prints the labirinth
     push 20
     push 2
     push 4 
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call print_rect
     add sp,10
@@ -554,7 +554,7 @@ print_layout PROC              ;prints the labirinth
     push 19
     push 2
     push 5
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call print_rect
     add sp,10
@@ -564,7 +564,7 @@ print_layout PROC              ;prints the labirinth
     push 17
     push 2
     push 5
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call print_rect
     add sp,10
@@ -574,7 +574,7 @@ print_layout PROC              ;prints the labirinth
     push 14
     push 8
     push 1
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call print_rect
     add sp,10
@@ -584,7 +584,7 @@ print_layout PROC              ;prints the labirinth
     push 11
     push 2
     push 3
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call print_rect
     add sp,10
@@ -594,7 +594,7 @@ print_layout PROC              ;prints the labirinth
     push 11
     push 10
     push 1
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call print_rect
     add sp,10
@@ -604,7 +604,7 @@ print_layout PROC              ;prints the labirinth
     push 12
     push 2
     push 5
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call print_rect
     add sp,10
@@ -614,7 +614,7 @@ print_layout PROC              ;prints the labirinth
     push 14
     push 4
     push 3
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call print_rect
     add sp,10
@@ -624,7 +624,7 @@ print_layout PROC              ;prints the labirinth
     push 3
     push 2
     push 3
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call print_rect
     add sp,10
@@ -634,7 +634,7 @@ print_layout PROC              ;prints the labirinth
     push 3
     push 12
     push 1
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call print_rect
     add sp,10
@@ -644,7 +644,7 @@ print_layout PROC              ;prints the labirinth
     push 3
     push 2
     push 3
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call print_rect
     add sp,10
@@ -654,7 +654,7 @@ print_layout PROC              ;prints the labirinth
     push 6
     push 2
     push 2
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call print_rect
     add sp,10
@@ -664,7 +664,7 @@ print_layout PROC              ;prints the labirinth
     push 8
     push 12
     push 1
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call print_rect
     add sp,10
@@ -674,7 +674,7 @@ print_layout PROC              ;prints the labirinth
     push 11
     push 6
     push 1
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call print_rect
     add sp,10
@@ -684,7 +684,7 @@ print_layout PROC              ;prints the labirinth
     push 6
     push 2
     push 6
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call print_rect
     add sp,10
@@ -694,7 +694,7 @@ print_layout PROC              ;prints the labirinth
     push 8
     push 6
     push 1
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call print_rect
     add sp,10
@@ -704,7 +704,7 @@ print_layout PROC              ;prints the labirinth
     push 3
     push 2
     push 6
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call print_rect
     add sp,10
@@ -714,7 +714,7 @@ print_layout PROC              ;prints the labirinth
     push 3
     push 6
     push 1
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call print_rect
     add sp,10
@@ -724,7 +724,7 @@ print_layout PROC              ;prints the labirinth
     push 19
     push 4
     push 3
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call print_rect
     add sp,10
@@ -734,7 +734,7 @@ print_layout PROC              ;prints the labirinth
     push 21
     push 16
     push 1
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call print_rect
     add sp,10
@@ -744,7 +744,7 @@ print_layout PROC              ;prints the labirinth
     push 8
     push 4
     push 1
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call print_rect
     add sp,10
@@ -754,7 +754,7 @@ print_layout PROC              ;prints the labirinth
     push 3
     push 6
     push 3
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call print_rect
     add sp,10
@@ -764,7 +764,7 @@ print_layout PROC              ;prints the labirinth
     push 1
     push 2
     push 5
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call print_rect
     add sp,10
@@ -774,7 +774,7 @@ print_layout PROC              ;prints the labirinth
     push 1
     push 2
     push 5
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call print_rect
     add sp,10
@@ -784,7 +784,7 @@ print_layout PROC              ;prints the labirinth
     push 8
     push 10
     push 1
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call print_rect
     add sp,10
@@ -853,38 +853,24 @@ print_score PROC
     ret
 print_score ENDP
 
-print_text PROC
-    push bx
-    push cx
-    push dx
-    
-    mov ax,es
-    push ax
-    mov ax,@data
-    mov es,ax
-    
-    push bp
-    mov bp,sp
-    
-    mov dl,byte ptr [bp+20]
-    mov dh,byte ptr [bp+18]
-    mov cx,word ptr [bp+16]
-    mov bl,byte ptr [bp+12]
-    
-    mov bp,word ptr [bp+14]
-    xor al,al
-    mov ah,13h
-    int 10h
-    
-    pop bp
-    pop ax
-    mov es,ax
-    
-    pop dx
-    pop cx
-    pop bx
-    ret
-print_text ENDP    
+
+;input si - source address
+;      di - buffer offset
+;buffer_write_string proc
+;	pusha
+;	write_string_loop:
+;		xor ax, ax
+;		mov al, byte ptr[si]
+;		cmp al, 0
+;		je _exit_buffer_write_string
+;		mov byte ptr[buffer + di], al
+;		inc si
+;		inc di
+;		jmp write_string_loop
+;	_exit_buffer_write_string:
+;		popa
+;		ret
+;buffer_write_string endp
 
 print_random_food PROC
     push ax
@@ -915,7 +901,7 @@ print_random_food PROC
     
     push ax
     push cx
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call check_move
     add sp,6
@@ -994,7 +980,7 @@ get_random_ghost_position PROC      ;returns in ax and bx random valid X and Y o
     
     push ax
     push cx
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call check_move
     add sp,6
@@ -1009,7 +995,7 @@ get_random_ghost_position PROC      ;returns in ax and bx random valid X and Y o
     
     push ax
     push cx
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call check_move
     add sp,6
@@ -1027,7 +1013,7 @@ get_random_ghost_position PROC      ;returns in ax and bx random valid X and Y o
     
     push ax
     push cx
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call check_move
     add sp,6
@@ -1120,7 +1106,7 @@ check_up_dir PROC
     
     push ax
     push dx
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call check_move
     add sp,6
@@ -1179,7 +1165,7 @@ check_down_dir PROC
     
     push ax
     push dx
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call check_move
     add sp,6
@@ -1237,7 +1223,7 @@ check_left_dir PROC
     test_left_dir:
     push ax
     push dx
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call check_move
     add sp,6
@@ -1295,7 +1281,7 @@ check_right_dir PROC
     test_right_dir:
     push ax
     push dx
-    push word ptr [blue_char]
+    push word ptr [pink_char]
     
     call check_move
     add sp,6
@@ -1775,7 +1761,7 @@ check_dead PROC     ;returns 1 in dx if we are dead
     push offset gameover_text
     push word ptr [message_att]
     
-    call print_text
+    ;call print_text
     add sp,10
     jmp skip_it
     
@@ -1796,16 +1782,16 @@ get_first_dir PROC
     push offset firstdir_text1
     push word ptr [message_att]
 
-    call print_text
+    ;call print_text
     add sp,10
     
-    push FIRSTDIR_X2
+    push FIRSTDIR_X2 
     push FIRSTDIR_Y2
     push 9
     push offset firstdir_text2
     push word ptr [message_att]
     
-    call print_text
+    ;call print_text
     add sp,10
 
     get_first_direction:
@@ -1844,7 +1830,7 @@ push 6
 push offset score_text
 push word ptr [score_att]
 
-call print_text
+;call print_text
 add sp,10
 
 call print_layout
