@@ -152,18 +152,18 @@ calculateEmptyStrings:
         call checkEndl
         ;inc si
 ;;;;;;;;;;;;;;;;;;;;DEBUG;;;;;;;;;;;;;;;;;;;;;;;
-        push resultNumber
-        push ax
-        xor ax, ax
-        mov al, isEndl 
-        mov resultNumber, ax
-        call itoa
-        lea ax, resultString
-        push ax
-        call print_str
-        pop ax     
-        pop ax
-        pop resultNumber  
+        ;push resultNumber
+        ;push ax
+        ;xor ax, ax
+        ;mov al, isEndl 
+        ;mov resultNumber, ax
+        ;call itoa
+        ;lea ax, resultString
+        ;push ax
+        ;call print_str
+        ;pop ax     
+        ;pop ax
+        ;pop resultNumber  
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
         cmp isEndl, 0
         je check_previous
