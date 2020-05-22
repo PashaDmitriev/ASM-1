@@ -1695,7 +1695,7 @@ check_move PROC        ;accepts X,Y and char with attribute. returns 0 in si if 
     
     mov di,dx
 
-    mov ax,word ptr es:[di]
+    mov ax, word ptr es:[di]
     
     mov si,0
     cmp ah,byte ptr [bp+13]
