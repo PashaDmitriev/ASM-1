@@ -21,6 +21,11 @@ empty_segment ENDS
     parsingStep         dw 1
     negativeExit        db "Enter correct number!", 0Dh, 0Ah, '$'
     memoryError         db "Memory allocatingMemory", 0Dh, 0Ah, '$'
+    fileNotFound        db "File not found", 0Dh, 0Ah, '$'
+    badPrivilege        db "Access is denied for this file", 0Dh, 0Ah, '$'
+    memoryAllocation    db "Memory allocation failed", 0Dh, 0Ah, '$'
+    wrongEnviroment     db "Wrong environment", 0Dh, 0Ah, '$'
+    wrongFormat         db "Wrong file format", 0Dh, 0Ah, '$'
     EPB                 dw 0000
                         dw offset commandLine, 0
                         dw 005Ch, 0, 006Ch, 0
@@ -182,7 +187,6 @@ MemoryAllocException:
     call    puts
     call    exit
 
-   
 start proc
     mov ax,es
     mov bx,empty_segment               
@@ -235,11 +239,21 @@ start proc
     loop runProgramm
     call    exit
     _error:
-        mov si, offset tempVar
-        call itoa
-        mov dx, offset tempVar
-        call puts
-        call exit   
+        cmp ax, 02h
+        call fileNotFoundException
+        cmp ax, 05h
+        call badPrivilegeException
+        cmp ax, 08h
+        call memoryAllocationException
+        cmp ax, 0Ah
+        call wrongEnviromentException
+        cmp ax, 0Bh
+        call wrongFormatException
+        ;mov si, offset tempVar
+        ;call itoa
+        ;mov dx, offset tempVar
+        ;call puts
+        ;call exit   
     
 ;;;;;;;;;;;;;;;;;;;;;;;;;LOGS;;;;;;;;;;;;;;;;;;;;;;;;;
     ;push    dx
@@ -253,6 +267,30 @@ start proc
     ;pop     dx
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+endp  
+fileNotFoundException proc
+    lea     dx, fileNotFound
+    call    puts
+    call    exit
 endp
-    
+badPrivilegeException proc
+    lea     dx, badPrivilege
+    call    puts
+    call    exit
+endp
+memoryAllocationException proc
+    lea     dx, memoryAllocation
+    call    puts
+    call    exit
+endp
+wrongEnviromentException proc
+    lea     dx, wrongEnviroment
+    call    puts
+    call    exit
+endp
+wrongFormatException proc
+    lea     dx, wrongFormat
+    call    puts
+    call    exit
+endp
 end start
