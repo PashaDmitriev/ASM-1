@@ -5,26 +5,22 @@ org 100h
 start:
     jmp setResident
 
-    NoArgsException db "Usage [Hours] [Minutes] [Delay]$"
+    NoArgsException db "Usage [Hours] [Minutes] [Delay]", 0Dh, 0Ah, '$'
+    negativeExit db "Enter correct number!", 0Dh, 0Ah, '$'
     HoursBuffer db 8 dup('$')
     MinutesBuffer db 8 dup('$')
     DelayBuffer db 24 dup('$')
-    alarm db " Alarm clock!" 
+    alarm db " Alarm clock!", 0Dh, 0Ah, '$' 
     errorOnSet db  "Error on set realtime clock$"
     Hours db 0
     Minutes db 0
     Delay dw 0
     old_interrupt dd 0
 
-
 puts proc far
     mov     ah, 9
     int     21h
     ret
-endp
-exit proc far 
-    mov ax, 4c00h
-    int 21h
 endp
 
 SetUpAlarm proc far
@@ -98,11 +94,11 @@ alarm_clock proc far
     pop ds
     pusha
     
-    pusha
-    lea dx, NoArgsException
-    call puts
-    ;call exit
-    popa
+    ;pusha
+    ;lea dx, NoArgsException
+    ;call puts
+    ;;call exit
+    ;popa
 
     ;mov ax,@data
     ;mov ds,ax 
@@ -145,7 +141,7 @@ alarm_clock proc far
         mov bh,0
         inc dl
         int 10h
-    cmp si,12
+    cmp si,15
     jne PrintAll
     
     popa
@@ -168,24 +164,31 @@ setNewInterraptHandler proc far
     ret
 endp
  
+checkInput proc
+    pusha
+    cmp byte ptr [Hours], 0
+    jl far ptr wrongNumbeerException
+
+    cmp byte ptr [Hours], 23
+    jg far ptr wrongNumbeerException
+
+    cmp byte ptr [Minutes], 0
+    jl far ptr wrongNumbeerException
+
+    cmp byte ptr [Minutes], 59
+    jg far ptr wrongNumbeerException
+
+    cmp word ptr [Delay], 0
+    jle far ptr wrongNumbeerException
+
+    ;cmp word ptr [Delay], 10000
+    ;jg far ptr wrongNumbeerException
+    popa
+    ret
+endp
+
 ConvertTimeAndDelay proc far
     pusha
-    pusha
-        lea dx, HoursBuffer
-        call puts
-
-        lea dx, MinutesBuffer
-        call puts
-
-        lea dx, DelayBuffer
-        call puts
-    popa
-
-
-
-
-
-
 
     mov si, offset HoursBuffer
     mov di, offset Hours
@@ -196,6 +199,7 @@ ConvertTimeAndDelay proc far
     mov si, offset DelayBuffer
     mov di, offset Delay
     call atoi
+    call checkInput
     convert_to_bcd:
         xor ax, ax
         mov al, Hours
@@ -224,6 +228,11 @@ ConvertTimeAndDelay proc far
     popa
     ret
 endp
+wrongNumbeerException:
+    lea     dx, negativeExit
+    call    puts
+    jmp     exit
+
 getTimeAndDelay proc far
     pusha
 
@@ -239,6 +248,11 @@ getTimeAndDelay proc far
     mov di, offset HoursBuffer
 
     getHours:
+        cmp byte ptr es:[si], '0'
+        jb wrongNumbeerException
+        cmp byte ptr es:[si], '9'
+        jg wrongNumbeerException
+        
         mov     al, es:[si]
         mov     [di], al
 
@@ -259,6 +273,11 @@ getTimeAndDelay proc far
     inc si
     mov di, offset MinutesBuffer
     getMinutes:
+        cmp byte ptr es:[si], '0'
+        jb wrongNumbeerException
+        cmp byte ptr es:[si], '9'
+        jg wrongNumbeerException
+
         mov     al, es:[si]
         mov     [di], al
 
@@ -279,7 +298,12 @@ getTimeAndDelay proc far
     inc si
     mov di, offset DelayBuffer
     getDelay:
-         mov     al, es:[si]
+        cmp byte ptr es:[si], '0'
+        jb wrongNumbeerException
+        cmp byte ptr es:[si], '9'
+        jg wrongNumbeerException
+        
+        mov     al, es:[si]
         mov     [di], al
 
         inc     di
@@ -299,7 +323,11 @@ endp
 NoArgsExc:
     lea     dx, NoArgsException
     call    puts
-    call    exit
+    jmp     exit
+
+exit:
+    mov ax, 4c00h
+    int 21h
 setResident:
     call getTimeAndDelay
     call ConvertTimeAndDelay
